@@ -1,3 +1,4 @@
+student_count = 11
 # print the list of students
 puts "The students of Villain Academy"
 puts "-----------------"
@@ -13,7 +14,4 @@ puts "The Joker"
 puts "Joffrey Baratheon"
 puts "Norman Bates"
 # print the total number of students
-# print method used here to learn the difference with puts
-print "Overall, we have "
-print 11
-puts " great students"
+puts "Overall, we have #{student_count} great students"
