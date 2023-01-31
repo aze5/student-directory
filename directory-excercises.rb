@@ -34,7 +34,15 @@ end
 def print_array_specify_letter(students, letter)
   students.each_with_index do |student, idx|
     if letter == student[:name][0]
-      puts "#{student[:name]} (#{student[:cohort]} cohort)"
+      puts "#{idx + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+    end
+  end
+end
+
+def print_array_less_than_twelve(students)
+  students.each_with_index do |student, idx|
+    if student[:name].length < 12
+      puts "#{idx + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
     end
   end
 end
@@ -46,5 +54,5 @@ end
 
 students = input_students
 print_header
-print_array(students)
+print_array_less_than_twelve(students)
 print_footer(students)
