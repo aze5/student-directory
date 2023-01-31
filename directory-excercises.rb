@@ -30,6 +30,16 @@ def print_array(students)
   end
 end
 
+def print_array_with_while_loop(students)
+  count = 0
+  idx = 1
+  while count < students.length
+    puts "#{idx}. #{students[count][:name]} (#{students[count][:cohort]} cohort)"
+    idx += 1
+    count += 1
+  end
+end
+
 # print students with a specific first letter
 def print_array_specify_letter(students, letter)
   students.each_with_index do |student, idx|
@@ -54,5 +64,5 @@ end
 
 students = input_students
 print_header
-print_array_less_than_twelve(students)
+print_array_with_while_loop(students)
 print_footer(students)
