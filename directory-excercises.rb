@@ -14,7 +14,23 @@ def input_students
     name = gets.chomp
   end
   # return students array
+
   return students
+end
+
+def add_additional_info(students)
+  puts "Whos info would you like to update?"
+  puts "Please enter their full name:"
+  name = gets.chomp
+  students.each do |student_info|
+    if student_info[:name] == name
+      puts "What category would you like to add to this student's info:"
+      key = gets.chomp
+        puts "Please enter the info you would like to add to '#{key}'"
+        value = gets.chomp
+        student_info[key] = value
+    end
+  end
 end
 
 # print the header
@@ -66,3 +82,4 @@ students = input_students
 print_header
 print_array_with_while_loop(students)
 print_footer(students)
+add_additional_info(students)
