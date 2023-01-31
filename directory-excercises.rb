@@ -1,23 +1,47 @@
 # get user input for student names
 def input_students
-  puts "Please the name of the students"
-  puts "To finish, please press enter twice."
+  months = ["january", "february", "march", "april", "may", "june", "july", 
+  "august", "september", "october", "november", "december"]
+  puts "Please the name of the student"
+  name = gets.chomp
+  puts "Please enter the cohort of the student"
+  cohort = gets.chomp
+  if cohort.empty?
+    cohort = "Unspecified"
+  else
+    while !months.include? cohort.downcase do
+      puts "ERROR: cohort not valid"
+      puts "Please enter the cohort of the student (eg: 'December')"
+      cohort = gets.chomp
+    end
+  end
   # array to store student names
   students = []
-  # user input
-  name = gets.chomp
-  while !name.empty? do
+  while !name.empty? && !cohort.empty? do
     # add student has to array
-    students << {name: name, cohort: :november}
+    students << {name: name, cohort: cohort.to_sym}
     puts "Now we have #{students.count} students"
     # get another name from user
+    puts "Please enter the name of the next student"
     name = gets.chomp
+    puts "Please enter the cohort of the student"
+    cohort = gets.chomp
+    if cohort.empty?
+      cohort = "Unspecified"
+    else
+      while !months.include? cohort.downcase do
+        puts "ERROR: cohort not valid"
+        puts "Please enter the cohort of the student (eg: 'December')"
+        cohort = gets.chomp
+      end
+    end
   end
   # return students array
 
   return students
 end
 
+# method to add additional info to a student's hash
 def add_additional_info(students)
   puts "Whos info would you like to update?"
   puts "Please enter their full name:"
@@ -36,7 +60,7 @@ end
 # print the header
 def print_header
     puts "The students of Villain Academy"
-    puts "-----------------"
+    puts "-----------------".center(30)
 end
 
 # print student names
@@ -45,6 +69,7 @@ def print_array(students)
     puts "#{idx + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
   end
 end
+
 
 def print_array_with_while_loop(students)
   count = 0
