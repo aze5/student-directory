@@ -1,8 +1,8 @@
-# get user input for student names
+# get user input for student names & cohort
 def input_students
   months = ["january", "february", "march", "april", "may", "june", "july", 
   "august", "september", "october", "november", "december"]
-  puts "Please the name of the student"
+  puts "Please enter the name of the student"
   name = gets.chomp
   puts "Please enter the cohort of the student"
   cohort = gets.chomp
@@ -15,6 +15,7 @@ def input_students
       cohort = gets.chomp
     end
   end
+  
   # array to store student names
   students = []
   while !name.empty? && !cohort.empty? do
@@ -63,6 +64,22 @@ def print_header
     puts "-----------------".center(30)
 end
 
+def print_students_by_cohort(students)
+  students_by_cohort = {}
+  students.each { |student_info|
+  # add cohort if it hasnt already been added
+    if !students_by_cohort.include? student_info[:cohort]
+      students_by_cohort[student_info[:cohort]] = [] 
+    end
+    # append student name to value
+    students_by_cohort[student_info[:cohort]] << student_info[:name]
+    }
+    # print the students grouped by cohort
+  students_by_cohort.each { |cohort, value|
+    puts "Students in #{cohort.capitalize} cohort: #{value}"
+  }
+end
+
 # print student names
 def print_array(students)
   students.each_with_index do |student, idx|
@@ -104,7 +121,8 @@ def print_footer(names)
 end
 
 students = input_students
+print_students_by_cohort(students)
 print_header
-print_array_with_while_loop(students)
+print_array(students)
 print_footer(students)
 add_additional_info(students)
