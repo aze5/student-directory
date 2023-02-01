@@ -126,8 +126,10 @@ def print_footer(names)
 end
 
 students = input_students
-print_students_by_cohort(students)
-print_header
-print_array(students)
-print_footer(students)
-add_additional_info(students)
+if students.empty?
+  print "There are no students at Villain Academy"
+else
+  print_header
+  print_array(students)
+  print_footer(students)
+end
