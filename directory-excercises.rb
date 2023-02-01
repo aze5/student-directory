@@ -21,7 +21,11 @@ def input_students
   while !name.empty? && !cohort.empty? do
     # add student has to array
     students << {name: name, cohort: cohort.to_sym}
-    puts "Now we have #{students.count} students"
+    if students.count == 1
+      puts "Now we have #{students.count} student"
+    else
+      puts "Now we have #{students.count} students"
+    end
     # get another name from user
     puts "Please enter the name of the next student"
     name = gets.chomp
@@ -38,7 +42,7 @@ def input_students
     end
   end
   # return students array
-
+  
   return students
 end
 
@@ -74,7 +78,7 @@ def print_students_by_cohort(students)
     # append student name to value
     students_by_cohort[student_info[:cohort]] << student_info[:name]
     }
-    # print the students grouped by cohort
+  # print the students grouped by cohort
   students_by_cohort.each { |cohort, value|
     puts "Students in #{cohort.capitalize} cohort: #{value}"
   }
