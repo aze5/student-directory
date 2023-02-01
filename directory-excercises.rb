@@ -3,7 +3,9 @@ def input_students
   months = ["january", "february", "march", "april", "may", "june", "july", 
   "august", "september", "october", "november", "december"]
   puts "Please enter the name of the student"
-  name = gets.chomp
+  # replace .chomp for excercise 10
+  name = gets
+  name.delete!("\n")
   puts "Please enter the cohort of the student"
   cohort = gets.chomp
   if cohort.empty?
@@ -15,7 +17,6 @@ def input_students
       cohort = gets.chomp
     end
   end
-  
   # array to store student names
   students = []
   while !name.empty? && !cohort.empty? do
