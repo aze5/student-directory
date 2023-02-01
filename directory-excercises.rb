@@ -29,6 +29,7 @@ def input_students
     end
     # get another name from user
     puts "Please enter the name of the next student"
+    puts "If you have finished, press enter twice"
     name = gets.chomp
     puts "Please enter the cohort of the student"
     cohort = gets.chomp
@@ -125,11 +126,30 @@ def print_footer(names)
   puts "Overall, we have #{names.count} great students"
 end
 
-students = input_students
-if students.empty?
-  print "There are no students at Villain Academy"
-else
-  print_header
-  print_array(students)
-  print_footer(students)
+def interactive_menu
+  students = []
+  loop do
+    # options for user
+    puts "1. Input student info"
+    puts "2. Show the students"
+    puts "9. Exit"
+    # user's selection
+    selection = gets.chomp
+    # do what the user asked
+    case selection
+      when "1"
+        students = input_students
+      when "2"
+        print_header
+        print_array(students)
+        print_footer(students)
+      when "9"
+        exit
+      else
+        "I don't know what you meant. Please try again"
+    end
+    
+  end
 end
+
+interactive_menu
