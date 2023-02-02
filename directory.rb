@@ -2,22 +2,11 @@
 
 # get user input for student names & cohort
 def input_students
-  months = ["january", "february", "march", "april", "may", "june", "july", 
-  "august", "september", "october", "november", "december"]
   puts "Please enter the name of the student"
-  # replace .chomp for excercise 10
   name = STDIN.gets.chomp
   puts "Please enter the cohort of the student"
   cohort = STDIN.gets.chomp
-  if cohort.empty?
-    cohort = "Unspecified"
-  else
-    while !months.include? cohort.downcase do
-      puts "ERROR: cohort not valid"
-      puts "Please enter the cohort of the student (eg: 'December')"
-      cohort = STDIN.gets.chomp
-    end
-  end
+  default_cohort_if_empty
   while !name.empty? && !cohort.empty? do
     add_hash_to_array(name, cohort)
     if @students.count == 1
@@ -31,19 +20,25 @@ def input_students
     name = STDIN.gets.chomp
     puts "Please enter the cohort of the student"
     cohort = STDIN.gets.chomp
-    if cohort.empty?
-      cohort = "Unspecified"
-    else
-      while !months.include? cohort.downcase do
-        puts "ERROR: cohort not valid"
-        puts "Please enter the cohort of the student (eg: 'December')"
-        cohort = STDIN.gets.chomp
-      end
-    end
+    default_cohort_if_empty
   end
   # return students array
   
   return @students
+end
+
+def default_cohort_if_empty
+  months = ["january", "february", "march", "april", "may", "june", "july", 
+  "august", "september", "october", "november", "december"]
+  if cohort.empty?
+      cohort = "Unspecified"
+  else
+    while !months.include? cohort.downcase do
+      puts "ERROR: cohort not valid"
+      puts "Please enter the cohort of the student (eg: 'December')"
+      cohort = STDIN.gets.chomp
+    end
+  end
 end
 
 def add_hash_to_array(name, cohort)
@@ -90,7 +85,6 @@ def print_students_by_cohort
   }
 end
 
-
 # print student names
 def print_array
   @students.each do |student|
@@ -109,6 +103,8 @@ def print_menu
   puts "2. Show the students"
   puts "3. Save student data to students.csv"
   puts "4. Load student data from students.csv"
+  puts "5. Show the students in each cohort"
+  puts "6. Add additional information to a given student"
   puts "9. Exit"
 end
 
@@ -128,6 +124,10 @@ def process(selection)
       save_data
     when "4"
       load_data
+    when "5"
+      print_students_by_cohort
+    when "6"
+      add_additional_info
     when "9"
       exit
     else
