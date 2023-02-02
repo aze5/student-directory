@@ -4,9 +4,7 @@
 def input_students
   puts "Please enter the name of the student"
   name = STDIN.gets.chomp
-  puts "Please enter the cohort of the student"
-  cohort = STDIN.gets.chomp
-  default_cohort_if_empty
+  cohort = get_cohort
   while !name.empty? && !cohort.empty? do
     add_hash_to_array(name, cohort)
     if @students.count == 1
@@ -18,18 +16,18 @@ def input_students
     puts "Please enter the name of the next student"
     puts "If you are finished, press enter twice."
     name = STDIN.gets.chomp
-    puts "Please enter the cohort of the student"
-    cohort = STDIN.gets.chomp
-    default_cohort_if_empty
+    cohort = get_cohort
   end
   # return students array
-  
   return @students
 end
 
-def default_cohort_if_empty
+def get_cohort
   months = ["january", "february", "march", "april", "may", "june", "july", 
   "august", "september", "october", "november", "december"]
+  
+  puts "Please enter the cohort of the student"
+  cohort = STDIN.gets.chomp
   if cohort.empty?
       cohort = "Unspecified"
   else
@@ -39,6 +37,7 @@ def default_cohort_if_empty
       cohort = STDIN.gets.chomp
     end
   end
+  return cohort
 end
 
 def add_hash_to_array(name, cohort)
