@@ -104,6 +104,7 @@ def print_menu
   # options for user
   puts "1. Input student info"
   puts "2. Show the students"
+  puts "3. Save student data to students.csv"
   puts "9. Exit"
 end
 
@@ -119,11 +120,26 @@ def process(selection)
       @students = input_students
     when "2"
       show_students
+    when "3"
+      save_data
     when "9"
       exit
     else
       "I don't know what you meant. Please try again"
   end
+end
+
+def save_data
+  # open csv for writing
+  file = File.open("students.csv", "w")
+  # iterate over students array
+  @students.each { |student_info|
+    student_data = [student_info[:name], student_info[:cohort]]
+    csv_line = student_data.join(",")
+    file.puts csv_line
+  }
+  # close file
+  file.close
 end
 
 def interactive_menu
