@@ -135,25 +135,26 @@ def process(selection)
 end
 
 def save_data
+  puts "Please enter the filename that you would like to write the data to"
+  file_to_write = gets.chomp
   # open csv for writing
-  file = File.open("./.gitignore/students.csv", "w")
-  # iterate over students array
+  File.open(file_to_write, "w") { |file|
+    # iterate over students array
   @students.each { |student_info|
     student_data = [student_info[:name], student_info[:cohort]]
     csv_line = student_data.join(",")
-    file.puts csv_line
+    file.puts csv_line }
   }
-  # close file
-  file.close
+  puts "Successfully saved data to file"
 end
 
-def load_data(filepath = "./.gitignore/students.csv")
-  file = File.open(filepath, "r")
-  file.readlines.each { |line|
+def load_data(filepath = "students.csv")
+  File.open(filepath, "r") { |file|
+    file.readlines.each { |line|
     name, cohort = line.chomp.split(",")
-    add_hash_to_array(name, cohort)
+    add_hash_to_array(name, cohort)}
   }
-  file.close
+  puts "Successfully loaded file"
 end
 
 def try_load_data
@@ -175,4 +176,14 @@ def interactive_menu
   end
 end
 
+
+def print_source_code
+  File.open($0, "r") { |file|
+  file.readlines.each do |line|
+    puts line
+  end
+  }
+end
+
 interactive_menu
+
