@@ -105,6 +105,7 @@ def print_menu
   puts "1. Input student info"
   puts "2. Show the students"
   puts "3. Save student data to students.csv"
+  puts "4. Load student data from students.csv"
   puts "9. Exit"
 end
 
@@ -122,6 +123,8 @@ def process(selection)
       show_students
     when "3"
       save_data
+    when "4"
+      load_data
     when "9"
       exit
     else
@@ -131,7 +134,7 @@ end
 
 def save_data
   # open csv for writing
-  file = File.open("students.csv", "w")
+  file = File.open("./.gitignore/students.csv", "w")
   # iterate over students array
   @students.each { |student_info|
     student_data = [student_info[:name], student_info[:cohort]]
@@ -139,6 +142,15 @@ def save_data
     file.puts csv_line
   }
   # close file
+  file.close
+end
+
+def load_data
+  file = File.open("./.gitignore/students.csv", "r")
+  file.readlines.each { |line|
+    name, cohort = line.chomp.split(",")
+    @students << {name: name, cohort: cohort.to_sym}
+  }
   file.close
 end
 
