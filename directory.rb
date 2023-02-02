@@ -1,3 +1,5 @@
+@students = []
+
 # get user input for student names & cohort
 def input_students
   months = ["january", "february", "march", "april", "may", "june", "july", 
@@ -17,18 +19,17 @@ def input_students
       cohort = gets.chomp
     end
   end
-  # array to store student names
-  students = []
   while !name.empty? && !cohort.empty? do
     # add student has to array
-    students << {name: name, cohort: cohort.to_sym}
-    if students.count == 1
-      puts "Now we have #{students.count} student"
+    @students << {name: name, cohort: cohort.to_sym}
+    if @students.count == 1
+      puts "Now we have #{@students.count} student"
     else
-      puts "Now we have #{students.count} students"
+      puts "Now we have #{@students.count} students"
     end
     # get another name from user
     puts "Please enter the name of the next student"
+    puts "If you are finished, press enter twice."
     name = gets.chomp
     puts "Please enter the cohort of the student"
     cohort = gets.chomp
@@ -44,15 +45,15 @@ def input_students
   end
   # return students array
   
-  return students
+  return @students
 end
 
 # add additional info to to a given student's array
-def add_additional_info(students)
+def add_additional_info
   puts "Whos info would you like to update?"
   puts "Please enter their full name:"
   name = gets.chomp
-  students.each do |student_info|
+  @students.each do |student_info|
     if student_info[:name] == name
       puts "What category would you like to add to this student's info:"
       key = gets.chomp
@@ -70,9 +71,9 @@ def print_header
 end
 
 # prints students grouped by cohort
-def print_students_by_cohort(students)
+def print_students_by_cohort
   students_by_cohort = {}
-  students.each { |student_info|
+  @students.each { |student_info|
   # add cohort if it hasnt already been added
     if !students_by_cohort.include? student_info[:cohort]
       students_by_cohort[student_info[:cohort]] = [] 
@@ -88,22 +89,48 @@ end
 
 
 # print student names
-def print_array(students)
-  students.each do |student|
+def print_array
+  @students.each do |student|
     puts "#{student[:name]} (#{student[:cohort]} cohort)"
   end
 end
 
 # print the total number of students
-def print_footer(names)
-  puts "Overall, we have #{names.count} great students"
+def print_footer
+  puts "Overall, we have #{@students.count} great students"
 end
 
-students = input_students
-if students.empty?
-  print "There are no students at Villain Academy"
-else
-  print_header
-  print_array(students)
-  print_footer(students)
+def print_menu
+  # options for user
+  puts "1. Input student info"
+  puts "2. Show the students"
+  puts "9. Exit"
 end
+
+def show_students
+  print_header
+  print_array
+  print_footer
+end
+
+def process(selection)
+  case selection
+    when "1"
+      @students = input_students
+    when "2"
+      show_students
+    when "9"
+      exit
+    else
+      "I don't know what you meant. Please try again"
+  end
+end
+
+def interactive_menu
+  loop do
+    print_menu
+    process(gets.chomp)
+  end
+end
+
+interactive_menu
