@@ -6,22 +6,20 @@ def input_students
   "august", "september", "october", "november", "december"]
   puts "Please enter the name of the student"
   # replace .chomp for excercise 10
-  name = gets
-  name.delete!("\n")
+  name = STDIN.gets.chomp
   puts "Please enter the cohort of the student"
-  cohort = gets.chomp
+  cohort = STDIN.gets.chomp
   if cohort.empty?
     cohort = "Unspecified"
   else
     while !months.include? cohort.downcase do
       puts "ERROR: cohort not valid"
       puts "Please enter the cohort of the student (eg: 'December')"
-      cohort = gets.chomp
+      cohort = STDIN.gets.chomp
     end
   end
   while !name.empty? && !cohort.empty? do
-    # add student has to array
-    @students << {name: name, cohort: cohort.to_sym}
+    add_hash_to_array(name, cohort)
     if @students.count == 1
       puts "Now we have #{@students.count} student"
     else
@@ -30,16 +28,16 @@ def input_students
     # get another name from user
     puts "Please enter the name of the next student"
     puts "If you are finished, press enter twice."
-    name = gets.chomp
+    name = STDIN.gets.chomp
     puts "Please enter the cohort of the student"
-    cohort = gets.chomp
+    cohort = STDIN.gets.chomp
     if cohort.empty?
       cohort = "Unspecified"
     else
       while !months.include? cohort.downcase do
         puts "ERROR: cohort not valid"
         puts "Please enter the cohort of the student (eg: 'December')"
-        cohort = gets.chomp
+        cohort = STDIN.gets.chomp
       end
     end
   end
@@ -48,17 +46,22 @@ def input_students
   return @students
 end
 
+def add_hash_to_array(name, cohort)
+  # add student hash to array
+  @students << {name: name, cohort: cohort.to_sym}
+end
+
 # add additional info to to a given student's array
 def add_additional_info
   puts "Whos info would you like to update?"
   puts "Please enter their full name:"
-  name = gets.chomp
+  name = STDIN.gets.chomp
   @students.each do |student_info|
     if student_info[:name] == name
       puts "What category would you like to add to this student's info:"
-      key = gets.chomp
+      key = STDIN.gets.chomp
         puts "Please enter the info you would like to add to '#{key}'"
-        value = gets.chomp
+        value = STDIN.gets.chomp
         student_info[key] = value
     end
   end
@@ -97,12 +100,12 @@ end
 
 # print the total number of students
 def print_footer
-  puts "Overall, we have #{@students.count} great students"
+  puts "Overall, we have #{@students.count} great students\n"
 end
 
 def print_menu
   # options for user
-  puts "1. Input student info"
+  puts "\n1. Input student info"
   puts "2. Show the students"
   puts "3. Save student data to students.csv"
   puts "4. Load student data from students.csv"
@@ -145,19 +148,31 @@ def save_data
   file.close
 end
 
-def load_data
-  file = File.open("./.gitignore/students.csv", "r")
+def load_data(filepath = "./.gitignore/students.csv")
+  file = File.open(filepath, "r")
   file.readlines.each { |line|
     name, cohort = line.chomp.split(",")
-    @students << {name: name, cohort: cohort.to_sym}
+    add_hash_to_array(name, cohort)
   }
   file.close
+end
+
+def try_load_data
+  filepath = ARGV.first # first argument from command line
+  return if filepath.nil? # if filepath is not given, leave the function
+  if File.exist?(filepath) 
+    load_data(filepath)
+    puts "loaded #{@students.count} from #{filepath}"
+  else
+    puts "Sorry, #{filepath} doesn't exist"
+    exit # quit program
+  end
 end
 
 def interactive_menu
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
